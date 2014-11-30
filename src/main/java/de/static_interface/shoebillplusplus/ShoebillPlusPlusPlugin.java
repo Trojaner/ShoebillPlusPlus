@@ -57,6 +57,7 @@ public class ShoebillPlusPlusPlugin extends Plugin {
         eventManagerNode = getEventManager().createChildNode();
 
         registerEvents(eventManagerNode, PlusServer.get().getPluginManager());
+        PlusServer.get().getPluginManager().registerEvents(new ResourceListener(), this);
     }
 
     private void registerEvents(EventManagerNode eventManagerNode, PluginManager pluginManager) {
@@ -546,6 +547,7 @@ public class ShoebillPlusPlusPlugin extends Plugin {
 
     @Override
     protected void onDisable() throws Throwable {
+        PlusServer.get().destroy();
         eventManagerNode.destroy();
         eventManagerNode = null;
         instance = null;

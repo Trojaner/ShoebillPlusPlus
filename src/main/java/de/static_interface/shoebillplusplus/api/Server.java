@@ -19,9 +19,18 @@ package de.static_interface.shoebillplusplus.api;
 import de.static_interface.shoebillplusplus.Warning.*;
 import de.static_interface.shoebillplusplus.api.plugin.*;
 import de.static_interface.shoebillplusplus.api.scheduler.*;
+import net.gtaun.shoebill.*;
 import org.slf4j.*;
 
 public interface Server {
+
+    /**
+     * Returns the Shoebill implementation
+     *
+     * @return the Shoebill implementation
+     */
+    public Shoebill getShoebill();
+
     /**
      * Returns the primary logger associated with this server instance.
      *

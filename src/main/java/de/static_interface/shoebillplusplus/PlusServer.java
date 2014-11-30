@@ -16,15 +16,16 @@
 
 package de.static_interface.shoebillplusplus;
 
-import de.static_interface.shoebillplusplus.Warning.WarningState;
-import de.static_interface.shoebillplusplus.api.Server;
-import de.static_interface.shoebillplusplus.api.plugin.PluginManager;
-import de.static_interface.shoebillplusplus.api.plugin.SimplePluginManager;
+import de.static_interface.shoebillplusplus.Warning.*;
+import de.static_interface.shoebillplusplus.api.*;
+import de.static_interface.shoebillplusplus.api.plugin.*;
 import de.static_interface.shoebillplusplus.api.scheduler.*;
 import de.static_interface.shoebillplusplus.scheduler.*;
-import org.slf4j.Logger;
+import net.gtaun.shoebill.*;
+import org.slf4j.*;
 
 public class PlusServer implements Server {
+    public static int TICK = 50;
     private static PlusServer instance;
 
     protected PlusServer() { }
@@ -49,7 +50,7 @@ public class PlusServer implements Server {
                         ShoebillPlusPlusPlugin.getInstance().getShoebill().runOnSampThread(()
                                                                                                    -> ((SchedulerImpl) scheduler)
                                 .mainThreadHeartbeat(ticks));
-                        Thread.sleep(50);
+                        Thread.sleep(TICK);
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -64,8 +65,13 @@ public class PlusServer implements Server {
     }
 
     @Override
+    public Shoebill getShoebill() {
+        return ShoebillPlusPlusPlugin.getInstance().getShoebill();
+    }
+
+    @Override
     public Logger getLogger() {
-        return ShoebillPlusPlusPlugin.getInstance().getLogger();
+        return ShoebillPlusPlusPlugin.getInstance().getLogger(); //Todo: change this
     }
 
     @Override
@@ -90,7 +96,7 @@ public class PlusServer implements Server {
 
     @Override
     public void shutdown() {
-        running = false;
+        destroy();
         net.gtaun.shoebill.object.Server.get().sendRconCommand("exit"); //todo: bad implementation?
     }
 
@@ -106,11 +112,17 @@ public class PlusServer implements Server {
 
     @Override
     public int getUpdateInterval() {
-        return 50; //todo
+        return TICK; //todo: make this configurable?
     }
 
     @Override
     public PlusScheduler getScheduler() {
         return scheduler;
+    }
+
+    protected void destroy() {
+        running = false;
+        scheduler.cancelAllTasks();
+        instance = null;
     }
 }
