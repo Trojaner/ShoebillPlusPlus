@@ -14,6 +14,7 @@ This work is licensed under an GNU Affero General Public Licenese v3. For more i
 To-Do
 ================
 - [x] Implement new event system
+- [x] Implement new scheduler system
 - [ ] Implement new command system
 - [ ] Implement new plugin system/wrapper(?)
 - [ ] Add wiki and explain how to use this

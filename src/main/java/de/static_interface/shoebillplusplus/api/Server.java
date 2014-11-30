@@ -16,9 +16,10 @@
 
 package de.static_interface.shoebillplusplus.api;
 
-import de.static_interface.shoebillplusplus.Warning.WarningState;
-import de.static_interface.shoebillplusplus.api.plugin.PluginManager;
-import org.slf4j.Logger;
+import de.static_interface.shoebillplusplus.Warning.*;
+import de.static_interface.shoebillplusplus.api.plugin.*;
+import de.static_interface.shoebillplusplus.api.scheduler.*;
+import org.slf4j.*;
 
 public interface Server {
     /**
@@ -81,4 +82,18 @@ public interface Server {
      * @return the name of the current gamemode
      */
     public String getGamemodeName();
+
+    /**
+     * Get the update interval for PlayerUpdateEvent
+     *
+     * @return the update interval for PlayerUpdateEvent
+     */
+    public int getUpdateInterval();
+
+    /**
+     * Gets the scheduler for managing scheduled events.
+     *
+     * @return a scheduling service for this server
+     */
+    public PlusScheduler getScheduler();
 }

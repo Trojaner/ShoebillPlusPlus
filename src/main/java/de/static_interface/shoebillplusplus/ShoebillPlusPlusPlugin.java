@@ -16,6 +16,7 @@
 
 package de.static_interface.shoebillplusplus;
 
+import de.static_interface.shoebillplusplus.api.*;
 import de.static_interface.shoebillplusplus.api.event.amx.*;
 import de.static_interface.shoebillplusplus.api.event.checkpoint.*;
 import de.static_interface.shoebillplusplus.api.event.destroyable.*;
@@ -51,14 +52,16 @@ public class ShoebillPlusPlusPlugin extends Plugin {
     protected void onEnable() throws Throwable {
         primaryThread = Thread.currentThread();
         instance = this;
-        new SPPServer().init();
+        new PlusServer().init();
 
         eventManagerNode = getEventManager().createChildNode();
 
-        registerEvents(eventManagerNode, SPPServer.get().getPluginManager());
+        registerEvents(eventManagerNode, PlusServer.get().getPluginManager());
     }
 
     private void registerEvents(EventManagerNode eventManagerNode, PluginManager pluginManager) {
+        Server server = PlusServer.get();
+
         /*
          * Amx Events
          */
@@ -373,6 +376,9 @@ public class ShoebillPlusPlusPlugin extends Plugin {
         });
 
         eventManagerNode.registerHandler(net.gtaun.shoebill.event.player.PlayerUpdateEvent.class, (e) -> {
+            if(e.getPlayer().getUpdateCount() % server.getUpdateInterval() != 0) {
+                return;
+            }
             PlayerUpdateEvent event = new PlayerUpdateEvent(e);
             pluginManager.callEvent(event);
             if (!event.isAllowed()) {
@@ -380,6 +386,7 @@ public class ShoebillPlusPlusPlugin extends Plugin {
             } else if (event.isCancelled()) {
                 e.interrupt();
             }
+
         });
 
         eventManagerNode.registerHandler(net.gtaun.shoebill.event.player.PlayerWeaponShotEvent.class, (e) -> {

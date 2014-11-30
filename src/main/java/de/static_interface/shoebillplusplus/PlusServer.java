@@ -20,22 +20,25 @@ import de.static_interface.shoebillplusplus.Warning.WarningState;
 import de.static_interface.shoebillplusplus.api.Server;
 import de.static_interface.shoebillplusplus.api.plugin.PluginManager;
 import de.static_interface.shoebillplusplus.api.plugin.SimplePluginManager;
+import de.static_interface.shoebillplusplus.api.scheduler.*;
+import de.static_interface.shoebillplusplus.scheduler.*;
 import org.slf4j.Logger;
 
-public class SPPServer implements Server {
-    private static SPPServer instance;
+public class PlusServer implements Server {
+    private static PlusServer instance;
 
-    protected SPPServer(){}
+    protected PlusServer(){}
 
     private PluginManager pluginManager;
     private WarningState warningState = WarningState.DEFAULT;
-
+    private PlusScheduler scheduler;
     public void init() {
         instance = this;
         pluginManager = new SimplePluginManager(this);
+        scheduler = new SchedulerImpl();
     }
 
-    public static SPPServer get() {
+    public static PlusServer get() {
         return instance;
     }
 
@@ -77,5 +80,15 @@ public class SPPServer implements Server {
     @Override
     public String getGamemodeName() {
         return net.gtaun.shoebill.object.Server.get().getGamemodeText();
+    }
+
+    @Override
+    public int getUpdateInterval() {
+        return 50; //todo
+    }
+
+    @Override
+    public PlusScheduler getScheduler() {
+        return scheduler;
     }
 }
