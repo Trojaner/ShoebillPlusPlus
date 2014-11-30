@@ -17,16 +17,16 @@
 package de.static_interface.shoebillplusplus.api.plugin;
 
 /**
- * Thrown when a plugin attempts to interact with the server when it is not
+ * Thrown when a resource attempts to interact with the server when it is not
  * enabled
  */
-public class IllegalPluginAccessException extends RuntimeException {
+public class IllegalResourceAccessException extends RuntimeException {
 
     /**
      * Creates a new instance of <code>IllegalPluginAccessException</code>
      * without detail message.
      */
-    public IllegalPluginAccessException() {}
+    public IllegalResourceAccessException() {}
 
     /**
      * Constructs an instance of <code>IllegalPluginAccessException</code>
@@ -34,7 +34,7 @@ public class IllegalPluginAccessException extends RuntimeException {
      *
      * @param msg the detail message.
      */
-    public IllegalPluginAccessException(String msg) {
+    public IllegalResourceAccessException(String msg) {
         super(msg);
     }
 }

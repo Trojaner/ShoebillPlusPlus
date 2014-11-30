@@ -74,9 +74,9 @@ public class SimplePluginManager implements PluginManager {
 
     @Override
     public void registerEvents(Listener listener, Resource resource) {
-        if (!resource.isEnabled()) {
-            throw new IllegalPluginAccessException("Plugin attempted to register " + listener + " while not enabled");
-        }
+        //if (!resource.isEnabled()) { //todo
+        //    throw new IllegalPluginAccessException("Resource attempted to register " + listener + " while not enabled");
+        //}
 
         for (Map.Entry<Class<? extends Event>, Set<RegisteredListener>> entry : RegisteredListener.createRegisteredListeners(server, listener, resource).entrySet()) {
             getEventListeners(getRegistrationClass(entry.getKey())).registerAll(entry.getValue());
@@ -91,9 +91,9 @@ public class SimplePluginManager implements PluginManager {
     @Override
     public void registerEvent(Class<? extends Event> event, Listener listener, EventPriority priority, EventExecutor executor, Resource resource,
                               boolean ignoreCancelled) {
-        if (!resource.isEnabled()) {
-            throw new IllegalPluginAccessException("Plugin attempted to register " + event + " while not enabled");
-        }
+        //if (!resource.isEnabled()) { //todo
+        //    throw new IllegalPluginAccessException("Resource attempted to register " + event + " while not enabled");
+        //}
 
         if (useTimings) {
             getEventListeners(event).register(new TimedRegisteredListener(listener, executor, priority, resource, ignoreCancelled));
@@ -108,7 +108,7 @@ public class SimplePluginManager implements PluginManager {
             method.setAccessible(true);
             return (HandlerList) method.invoke(null);
         } catch (Exception e) {
-            throw new IllegalPluginAccessException(e.toString());
+            throw new IllegalResourceAccessException(e.toString());
         }
     }
 
@@ -122,7 +122,7 @@ public class SimplePluginManager implements PluginManager {
                 && Event.class.isAssignableFrom(clazz.getSuperclass())) {
                 return getRegistrationClass(clazz.getSuperclass().asSubclass(Event.class));
             } else {
-                throw new IllegalPluginAccessException("Unable to find handler list for event " + clazz.getName());
+                throw new IllegalResourceAccessException("Unable to find handler list for event " + clazz.getName());
             }
         }
     }

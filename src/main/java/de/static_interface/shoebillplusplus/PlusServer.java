@@ -27,15 +27,36 @@ import org.slf4j.Logger;
 public class PlusServer implements Server {
     private static PlusServer instance;
 
-    protected PlusServer(){}
+    protected PlusServer() { }
 
     private PluginManager pluginManager;
     private WarningState warningState = WarningState.DEFAULT;
     private PlusScheduler scheduler;
-    public void init() {
+    private boolean running = true;
+
+    protected void init() {
         instance = this;
         pluginManager = new SimplePluginManager(this);
         scheduler = new SchedulerImpl();
+
+        Thread taskThread = new Thread(new Runnable() {
+            private int ticks;
+            @Override
+            public void run() {
+                try {
+                    while(running) {
+                        ++ticks;
+                        ShoebillPlusPlusPlugin.getInstance().getShoebill().runOnSampThread(()
+                                                                                                   -> ((SchedulerImpl) scheduler)
+                                .mainThreadHeartbeat(ticks));
+                        Thread.sleep(50);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+        }
+    });
+    taskThread.start();
     }
 
     public static PlusServer get() {
@@ -69,6 +90,7 @@ public class PlusServer implements Server {
 
     @Override
     public void shutdown() {
+        running = false;
         net.gtaun.shoebill.object.Server.get().sendRconCommand("exit"); //todo: bad implementation?
     }
 

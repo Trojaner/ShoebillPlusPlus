@@ -7,6 +7,7 @@ import org.apache.commons.lang3.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.*;
+import java.util.stream.*;
 
 public class SchedulerImpl implements PlusScheduler {
 
@@ -100,7 +101,7 @@ public class SchedulerImpl implements PlusScheduler {
 
     @Override
     public PlusTask runTaskTimerAsynchronously(Resource resource, Runnable runnable, long delay, long period) {
-        validate(resource, runnable);
+        //validate(resource, runnable);
         if (delay < 0l) {
             delay = 0;
         }
@@ -115,7 +116,7 @@ public class SchedulerImpl implements PlusScheduler {
     @Override
     public <T> Future<T> callSyncMethod(final Resource resource, final Callable<T> task) {
         validate(resource, task);
-        final FutureImpl<T> future = new FutureImpl<T>(task, resource, nextId());
+        final FutureImpl<T> future = new FutureImpl<>(task, resource, nextId());
         handle(future, 0l);
         return future;
     }
@@ -194,29 +195,24 @@ public class SchedulerImpl implements PlusScheduler {
                 taskPending.cancel0();
             }
         }
-        for (TaskImpl runner : runners.values()) {
-            if (runner.getOwner().equals(resource)) {
-                runner.cancel0();
-            }
-        }
+        runners.values().stream().filter(runner -> runner.getOwner().equals(resource))
+                .forEach(de.static_interface.shoebillplusplus.scheduler.TaskImpl::cancel0);
     }
 
     @Override
     public void cancelAllTasks() {
         final TaskImpl task = new TaskImpl(
-                new Runnable() {
-                    public void run() {
-                        Iterator<TaskImpl> it = SchedulerImpl.this.runners.values().iterator();
-                        while (it.hasNext()) {
-                            TaskImpl task = it.next();
-                            task.cancel0();
-                            if (task.isSync()) {
-                                it.remove();
-                            }
+                () -> {
+                    Iterator<TaskImpl> it = SchedulerImpl.this.runners.values().iterator();
+                    while (it.hasNext()) {
+                        TaskImpl task1 = it.next();
+                        task1.cancel0();
+                        if (task1.isSync()) {
+                            it.remove();
                         }
-                        SchedulerImpl.this.pending.clear();
-                        SchedulerImpl.this.temp.clear();
                     }
+                    SchedulerImpl.this.pending.clear();
+                    SchedulerImpl.this.temp.clear();
                 });
         handle(task, 0l);
         for (TaskImpl taskPending = head.getNext(); taskPending != null; taskPending = taskPending.getNext()) {
@@ -225,9 +221,7 @@ public class SchedulerImpl implements PlusScheduler {
             }
             taskPending.cancel0();
         }
-        for (TaskImpl runner : runners.values()) {
-            runner.cancel0();
-        }
+        runners.values().forEach(de.static_interface.shoebillplusplus.scheduler.TaskImpl::cancel0);
     }
 
     @Override
@@ -258,7 +252,7 @@ public class SchedulerImpl implements PlusScheduler {
 
     @Override
     public List<PlusWorker> getActiveWorkers() {
-        final ArrayList<PlusWorker> workers = new ArrayList<PlusWorker>();
+        final ArrayList<PlusWorker> workers = new ArrayList<>();
         for (final TaskImpl taskObj : runners.values()) {
             // Iterator will be a best-effort (may fail to grab very new values) if called from an async thread
             if (taskObj.isSync()) {
@@ -283,18 +277,9 @@ public class SchedulerImpl implements PlusScheduler {
             }
         }
 
-        final List<PlusTask> pending = new ArrayList<>();
-        for (TaskImpl task : runners.values()) {
-            if (task.getPeriod() >= -1l) {
-                pending.add(task);
-            }
-        }
+        final List<PlusTask> pending = runners.values().stream().filter(task -> task.getPeriod() >= -1l).collect(Collectors.toList());
 
-        for (final TaskImpl task : truePending) {
-            if (task.getPeriod() >= -1l && !pending.contains(task)) {
-                pending.add(task);
-            }
-        }
+        truePending.stream().filter(task -> task.getPeriod() >= -1l && !pending.contains(task)).forEach(pending::add);
         return pending;
     }
 
@@ -363,9 +348,9 @@ public class SchedulerImpl implements PlusScheduler {
     private static void validate(final Resource resource, final Object task) {
         Validate.notNull(resource, "Resource cannot be null");
         Validate.notNull(task, "Task cannot be null");
-        if (!resource.isEnabled()) {
-            throw new RuntimeException("Resource attempted to register task while disabled");
-        }
+        //if (!resource.isEnabled()) { //todo
+        //    throw new RuntimeException("Resource attempted to register task while disabled");
+        //}
     }
 
     private int nextId() {
