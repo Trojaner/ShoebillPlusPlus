@@ -23,7 +23,7 @@ public enum EventPriority {
 
     /**
      * Event call is of very low importance and should be ran first, to allow
-     * other plugins to further customise the outcome
+     * other resources to further customise the outcome
      */
     LOWEST(0),
     /**

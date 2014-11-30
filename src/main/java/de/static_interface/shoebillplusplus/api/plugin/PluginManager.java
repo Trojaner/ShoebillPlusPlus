@@ -22,7 +22,7 @@ import de.static_interface.shoebillplusplus.api.event.Listener;
 import net.gtaun.shoebill.resource.Resource;
 
 /**
- * Handles all plugin management from the Server
+ * Handles all resource management from the Server
  */
 public interface PluginManager {
     /**

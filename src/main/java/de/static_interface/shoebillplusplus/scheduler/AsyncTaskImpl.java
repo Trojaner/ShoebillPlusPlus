@@ -25,7 +25,7 @@ import java.util.Map;
 
 class AsyncTaskImpl extends TaskImpl {
 
-    private final LinkedList<PlusWorker> workers = new LinkedList<PlusWorker>();
+    private final LinkedList<PlusWorker> workers = new LinkedList<>();
     private final Map<Integer, TaskImpl> runners;
 
     AsyncTaskImpl(final Map<Integer, TaskImpl> runners, final Resource resource, final Runnable task, final int id, final long delay) {
@@ -69,7 +69,7 @@ class AsyncTaskImpl extends TaskImpl {
             thrown = t;
             throw new RuntimeException(
                     String.format(
-                            "Plugin %s generated an exception while executing task %s",
+                            "Resource %s generated an exception while executing task %s",
                             getOwner().getDescription().getName(),
                             getTaskId()),
                     thrown);

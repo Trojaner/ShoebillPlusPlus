@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Stores relevant information for plugin listeners
+ * Stores relevant information for resource listeners
  */
 public class RegisteredListener {
     private final Listener listener;
@@ -67,7 +67,7 @@ public class RegisteredListener {
                 methods.add(method);
             }
         } catch (NoClassDefFoundError e) {
-            resource.getLogger().error("Plugin " + resource.getDescription().getName() + " has failed to register events for " + listener.getClass() + " because " + e.getMessage() + " does not exist.");
+            resource.getLogger().error("Resource " + resource.getDescription().getName() + " has failed to register events for " + listener.getClass() + " because " + e.getMessage() + " does not exist.");
             return ret;
         }
 

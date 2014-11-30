@@ -22,7 +22,7 @@ import de.static_interface.shoebillplusplus.api.event.EventException;
 import de.static_interface.shoebillplusplus.api.event.Listener;
 
 /**
- * Interface which defines the class for event call backs to plugins
+ * Interface which defines the class for event call backs to resources
  */
 public interface EventExecutor {
     public void execute(Listener listener, Event event) throws EventException;

@@ -52,8 +52,8 @@ public class HandlerList {
 
     /**
      * Bake all handler lists. Best used just after all normal event
-     * registration is complete, ie just after all plugins are loaded if
-     * you're using fevents in a plugin system.
+     * registration is complete, ie just after all resources are loaded if
+     * you're using fevents in a resource system.
      */
     public static void bakeAll() {
         synchronized (allLists) {
@@ -80,7 +80,7 @@ public class HandlerList {
     }
 
     /**
-     * Unregister a specific plugin's listeners from all handler lists.
+     * Unregister a specific resource's listeners from all handler lists.
      *
      * @param resource resource to unregister
      */
@@ -155,7 +155,7 @@ public class HandlerList {
     }
 
     /**
-     * Remove a specific plugin's listeners from this handler
+     * Remove a specific resource's listeners from this handler
      *
      * @param resource resource to remove
      */
@@ -214,7 +214,7 @@ public class HandlerList {
     }
 
     /**
-     * Get a specific plugin's registered listeners associated with this
+     * Get a specific resource's registered listeners associated with this
      * handler list
      *
      * @param resource the resource to get the listeners of
