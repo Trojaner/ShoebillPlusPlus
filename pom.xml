@@ -19,7 +19,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.static_interface.shoebillplusplus</groupId>
+    <groupId>de.static_interface</groupId>
     <artifactId>shoebillplusplus</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -32,11 +32,6 @@
             <url>http://www.gnu.org/licenses</url>
         </license>
     </licenses>
-
-    <organization>
-        <name>Adventuria Developer Team</name>
-        <url>http://adventuria.eu/</url>
-    </organization>
 
     <scm>
         <connection>scm:git:https://github.com/Adventuria/Reallife-Plugin.git</connection>
@@ -160,7 +155,7 @@
                 <version>2.3.1</version>
                 <configuration>
                     <archive>
-                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <addMavenDescriptor>true</addMavenDescriptor>
                     </archive>
                     <outputDirectory>${project.basedir}/jars</outputDirectory>
                 </configuration>

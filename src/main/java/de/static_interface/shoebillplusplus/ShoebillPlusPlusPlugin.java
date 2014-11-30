@@ -29,14 +29,12 @@ import de.static_interface.shoebillplusplus.api.event.server.*;
 import de.static_interface.shoebillplusplus.api.event.service.*;
 import de.static_interface.shoebillplusplus.api.event.vehicle.*;
 import de.static_interface.shoebillplusplus.api.plugin.*;
-import net.gtaun.shoebill.common.command.*;
 import net.gtaun.shoebill.resource.*;
 import net.gtaun.util.event.*;
 
 @SuppressWarnings("CodeBlock2Expr")
 public class ShoebillPlusPlusPlugin extends Plugin {
 
-    private PlayerCommandManager commandManager;
     private EventManagerNode eventManagerNode;
     private Thread primaryThread;
     private static ShoebillPlusPlusPlugin instance;
@@ -541,9 +539,7 @@ public class ShoebillPlusPlusPlugin extends Plugin {
 
     @Override
     protected void onDisable() throws Throwable {
-        commandManager.destroy();
         eventManagerNode.destroy();
-        commandManager = null;
         eventManagerNode = null;
         instance = null;
     }

@@ -25,6 +25,8 @@ import org.slf4j.Logger;
 public class SPPServer implements Server {
     private static SPPServer instance;
 
+    protected SPPServer(){}
+
     private PluginManager pluginManager;
     private WarningState warningState = WarningState.DEFAULT;
 

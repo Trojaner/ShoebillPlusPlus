@@ -32,7 +32,6 @@ public class PlayerWeaponShotEvent extends PlayerEvent<net.gtaun.shoebill.event.
     private boolean allowed;
     private final WeaponModel weapon;
     private final BulletHitType hitType;
-    private final int hitId;
     private final Vector3D position;
 
     public PlayerWeaponShotEvent(net.gtaun.shoebill.event.player.PlayerWeaponShotEvent base) {
@@ -40,7 +39,6 @@ public class PlayerWeaponShotEvent extends PlayerEvent<net.gtaun.shoebill.event.
         allowed = true;
         weapon = getBase().getWeapon();
         hitType = getBase().getHitType();
-        hitId = getBase().getHitPlayer().getId();
         position = getBase().getPosition();
     }
 
@@ -89,14 +87,14 @@ public class PlayerWeaponShotEvent extends PlayerEvent<net.gtaun.shoebill.event.
     }
 
     public SampObject getHitObject() {
-        return SampObject.get(this.hitId);
+        return getBase().getHitObject();
     }
 
     public PlayerObject getHitPlayerObject() {
-        return PlayerObject.get(this.getPlayer(), this.hitId);
+        return getBase().getHitPlayerObject();
     }
 
     public Player getHitPlayer() {
-        return Player.get(this.hitId);
+        return getBase().getHitPlayer();
     }
 }

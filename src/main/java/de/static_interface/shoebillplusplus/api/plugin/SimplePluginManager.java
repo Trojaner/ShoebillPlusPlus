@@ -16,20 +16,16 @@
 
 package de.static_interface.shoebillplusplus.api.plugin;
 
-import de.static_interface.shoebillplusplus.api.Server;
-import de.static_interface.shoebillplusplus.api.event.Event;
-import de.static_interface.shoebillplusplus.api.event.EventPriority;
-import de.static_interface.shoebillplusplus.api.event.HandlerList;
-import de.static_interface.shoebillplusplus.api.event.Listener;
-import net.gtaun.shoebill.resource.Resource;
+import de.static_interface.shoebillplusplus.api.*;
+import de.static_interface.shoebillplusplus.api.event.*;
+import net.gtaun.shoebill.resource.*;
 
-import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.*;
+import java.util.*;
 
 public class SimplePluginManager implements PluginManager {
     private final Server server;
-    private boolean useTimings = false; //todo
+    private boolean useTimings = true; //todo
     public SimplePluginManager(Server instance) {
         this.server = instance;
     }
