@@ -1,0 +1,7 @@
+class: de.static_interface.shoebillplusplus.ShoebillPlusPlusPlugin
+name: Shoebill++ Plugin
+version: ${project.version}
+buildNumber: ${project.version}
+buildDate: Unknown
+authors: Trojaner
+description: Enhanced Shoebill API
