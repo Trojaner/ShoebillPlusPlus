@@ -6,16 +6,20 @@ Example Usage
 ================
 This shows an example usage for the scheduler framework:
 ```java
-// Executes the given runnable every 200 Ticks. 
-// 1 Tick = 50ms, so it will print the message every 10 seconds
-PlusServer.get().getScheduler().runTaskTimerAsynchronously(SinkGamemode.getInstance(), new PlusRunnable() { 
-  int i = 1;
-  @Override
-  public void run() {
-    PlusServer.get().getLogger().info("Scheduler Test: #" + i);
-    i++;
-  }
-}, 0, 200); 
+@Override
+public void onEnable() {
+  Resource res = this;
+  // Executes the given runnable every 200 Ticks. 
+  // 1 Tick = 50ms, so it will print the message every 10 seconds
+  PlusServer.get().getScheduler().runTaskTimerAsynchronously(res, new PlusRunnable() { 
+    int i = 1;
+    @Override
+    public void run() {
+      PlusServer.get().getLogger().info("Scheduler Test: #" + i);
+      i++;
+    }
+  }, 0, 200); 
+}
 ```
 <br/>
 <b>Output:</b><br/>
